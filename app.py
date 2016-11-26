@@ -7,7 +7,7 @@ from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'very hard to guess string'
-
+# app.config?????
 bootstrap = Bootstrap(app)
 
 
@@ -36,7 +36,7 @@ def guess():
         elif answer < result:
             flash('too small %s times！' % times, 'info')
         else:
-            flash('Congratulation', 'success')
+            flash('Congratulation!!!', 'success')
             return redirect(url_for('.index'))
     return render_template('guess.html', form=form)
 

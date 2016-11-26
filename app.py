@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired, NumberRange
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'very hard to guess string'
+app.config['SECRET_KEY'] = 'today is 20161124'
 # app.config?????
 bootstrap = Bootstrap(app)
 

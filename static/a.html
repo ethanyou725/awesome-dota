@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" style="padding:5px;width:100%;" id='a1' value="">
+  <input type="button" id="load" value="ajax请求json数据">
+  <div id="result" class="col-md-8"></div>
+<pre class="content"></pre>
+</body>
+<script type="text/javascript">
+var prefix_url="http://hq.sinajs.cn/list=";
+var prefix_name="hq_str_";
+$('#load').click(function(){
+  var list=$('#a1').val();
+  if (list ==""){
+    alert('not null');
+    return;
+  };
+  var url=prefix_url+list;
+  var codes=list.split(','); //split with ","
+  var head= document.getElementsByTagName('head')[0];
+  var script= document.createElement('script');
+  script.type= 'text/javascript';
+  script.src= url;
+  script.onload= function(){
+    for (item of codes){
+        if (!eval(prefix_name+item)){alert('wrong!');return}else{
+          alert(eval(prefix_name+item));
+          console.log(eval(prefix_name+item));
+          console.log('OK');
+        }
+    }
+ };
+  head.appendChild(script);
+  head.removeChild(script);
+})
+</script>
+</html>

@@ -1,13 +1,12 @@
 import random
 from flask import Flask, render_template, flash, redirect, url_for, session
-from flask_wtf import FlaskForm
-from wtforms import IntegerField, SubmitField
-from wtforms.validators import DataRequired, NumberRange
+
 from flask_bootstrap import Bootstrap
+from testapp.app_forms import GuessNumberForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'today is 20161124'
-# app.config?????
+# testapp.config?????
 bootstrap = Bootstrap(app)
 
 
@@ -39,13 +38,6 @@ def guess():
             flash('Congratulation!!!', 'success')
             return redirect(url_for('.index'))
     return render_template('guess.html', form=form)
-
-
-class GuessNumberForm(FlaskForm):
-    number = IntegerField('输入一个整数(0~1000)', validators=[
-        DataRequired('请输入一个有效的整数！'),
-        NumberRange(0, 1000, '请输入0~1000以内的整数！')])
-    submit = SubmitField('提交')
 
 
 if __name__ == '__main__':

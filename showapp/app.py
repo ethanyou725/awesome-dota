@@ -1,13 +1,14 @@
 from flask_bootstrap import Bootstrap
 import sys
-from flask import Flask, render_template, flash, redirect, url_for, session
+from flask import Flask, render_template, flash, redirect, url_for, jsonify,request
 import os
 
 # sys.path.append("..")
 # import scripts.DataHandler
 # import scripts.HeroList
-from scripts import DataHandler
+from scripts.DataHandler import RESULT,DATE_RANGE
 from scripts import HeroList
+from scripts.DownloadImages import EName,url_list
 
 
 app = Flask(__name__)
@@ -21,14 +22,26 @@ def index():
 
 @app.route('/')
 def home():
-    list=HeroList.Names
-    return render_template('show.html',post=list)
+    a = []
+    for n in range(112):
+        a.append([HeroList.Names[n], url_list[n]])
+
+    return render_template('show.html',post=a)
 
 
 @app.route('/hero/<index>')
-def detail():
+def detail(index):
+    num=int(index)-1
+    print(type(num))
 
-    pass
+    data={
+        'rate':RESULT['rate'][num],
+        'frequency':RESULT['frequency'][num],
+    }
+    return jsonify(data)
+
+
+
 
 
 if __name__ =="__main__":

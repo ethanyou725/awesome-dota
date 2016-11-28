@@ -43,3 +43,15 @@ class MyHandler(object):
 #     print(test.filename)
 #     print(test.getFreqency())
 #     print(DataFileList)
+RESULT=[]
+DATE_RANGE=[]
+for csvfile in DataFileList:
+
+    date=csvfile[6:-4]
+    DATE_RANGE.append(date)
+    handler=MyHandler(DataDir+csvfile)
+    RESULT.append({'date':date,"rate":handler.getRate(),"frequency":handler.getFreqency()})
+
+RESULT.sort(key=lambda x:x['date'])
+
+print(RESULT[0])

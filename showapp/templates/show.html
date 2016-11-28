@@ -4,7 +4,11 @@
 {% block page_content %}
 <ul class="list-group ">
     {% for item in post %}
-    <li class="list-group-item col-xs-2" >{{ loop.index }}.{{item}}</li>
+    <li class="list-group-item col-xs-2" >
+        <a href="/hero/{{ loop.index }}" class="btn-default" id="btn_click">{{ loop.index }}.{{item[0]}}</a>
+        <br>
+        <img src="{{ item[1] }}"/>
+    </li>
     {% endfor %}
 </ul>
 {% endblock %}

@@ -12,6 +12,14 @@
     margin-right: auto;
     }
 </style>
+    {% block scripts %}
+    {{ super() }}
+        <script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+        <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+        <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/modules/data.js"></script>
+        <script type="text/javascript" src="http://cdn.bootcss.com/jquery-ui-bootstrap/0.5pre/assets/js/bootstrap.min.js"></script>
+    {% endblock scripts %}
 {% endblock %}
 
 {% block content %}
@@ -35,10 +43,4 @@
 {% endblock %}
 
 
-{% block scripts %}
-{{ super() }}
-<script src="http://cdn.hcharts.cn/jquery/jquery-2.1.4.min.js"></script>
-<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
-<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/modules/data.js"></script>
-{% endblock scripts %}
+

@@ -2,11 +2,11 @@ from flask_bootstrap import Bootstrap
 import sys
 from flask import Flask, render_template, flash, redirect, url_for, jsonify,request
 import os
-
+import json
 # sys.path.append("..")
 # import scripts.DataHandler
 # import scripts.HeroList
-from scripts.DataHandler import RESULT,DATE_RANGE
+from scripts.DataHandler import RESULT,DATE_RANGE,DataFileList
 from scripts import HeroList
 from scripts.DownloadImages import EName,url_list
 
@@ -32,13 +32,21 @@ def home():
 @app.route('/hero/<index>')
 def detail(index):
     num=int(index)-1
-    print(type(num))
+    result1=[]
+    result2=[]
+    for i in range(DataFileList.__len__()):
+        result1.append(RESULT[i]['rate'][num])
+        result2.append(RESULT[i]['frequency'][0])
 
+    print(HeroList.Names[num])
     data={
-        'rate':RESULT['rate'][num],
-        'frequency':RESULT['frequency'][num],
+        'name':HeroList.Names[num],
+        'rate':result1,
+        'frequency':result2,
+        'date':DATE_RANGE
     }
-    return jsonify(data)
+
+    return json.dumps(data,ensure_ascii=False,indent=2)
 
 
 

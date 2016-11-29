@@ -54,4 +54,8 @@ for csvfile in DataFileList:
 
 RESULT.sort(key=lambda x:x['date'])
 
-print(RESULT[0])
+
+if __name__ =="__main__":
+
+    for x in range(DataFileList.__len__()):
+        print(RESULT[x]['rate'][0])

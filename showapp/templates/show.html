@@ -5,10 +5,77 @@
 <ul class="list-group ">
     {% for item in post %}
     <li class="list-group-item col-xs-2" >
-        <a href="/hero/{{ loop.index }}" class="btn-default" id="btn_click">{{ loop.index }}.{{item[0]}}</a>
+        <a url="{{ url_for('detail', index=loop.index) }}" class="btn-default" name="btn_click">{{ loop.index }}.{{item[0]}}
         <br>
-        <img src="{{ item[1] }}"/>
+        <img src="{{ item[1] }}"/></a>
     </li>
     {% endfor %}
 </ul>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto;display: none"></div>
+<script type="text/javascript" >
+
+
+$(function () {
+    Highcharts.chart('container', {
+        title: {
+            text: '英雄胜率',
+            x: -20 //center
+        },
+        //subtitle: {
+          //  text: 'Source: WorldClimate.com',
+            //x: -20
+            //},
+        xAxis: {
+            categories:  [ "20161126", "20161125", "20161128", "20161127", "20161117", "20161121", "20161120", "20161119", "20161129", "20161124", "20161118" ]
+        },
+        yAxis: {
+            title: {
+                text: '胜率 (%)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '神谕者',
+            data:  [ 42.5439124376, 42.4551205122, 42.4712530082, 42.4825326973, 42.4825326973, 42.4969343309, 42.4571961582, 42.4614196891, 42.4861082417, 42.5075287781, 42.5181356231 ]
+        }]
+    });
+});
+
+$(function () {
+    $( "#container" ).dialog({
+      autoOpen: false,
+        modal: true,
+      show: {
+        effect: "blind",
+        duration: 1000
+      },
+        buttons: {
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+
+    });
+//绑定事件
+    $(".btn-default").each(function (n) {
+        $(this).click(function () {
+            console.log(this.attr('url'));
+            $( "#container").dialog( "open" );
+        });
+    });
+
+});
+    </script>
 {% endblock %}

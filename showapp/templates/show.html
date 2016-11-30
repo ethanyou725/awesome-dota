@@ -4,29 +4,78 @@
 {% block page_content %}
 <ul class="list-group ">
     {% for item in post %}
-    <li class="list-group-item col-xs-2" >
-        <a url="{{ url_for('detail', index=loop.index) }}" class="btn-default" name="btn_click">{{ loop.index }}.{{item[0]}}
+    <li class="list-group-item col-xs-2" style="background-color: rgba(0,0,0,0)">
+        <a url="{{ url_for('detail', index=loop.index) }}"  class="btn_click" style="background-color: rgba(0,0,0,0)">{{ loop.index }}.{{item[0]}}
         <br>
         <img src="{{ item[1] }}"/></a>
     </li>
     {% endfor %}
 </ul>
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto;display: none"></div>
+    <div id="container" style="min-width: 800px; background-color: #FCFFC5;margin: 0 auto;display: none">
+        <div id="chart1"></div>
+        <p><br><hr>
+        <div id="chart2"></div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
 <script type="text/javascript" >
 
+var _range,frequency,name,rate;
 
 $(function () {
-    Highcharts.chart('container', {
+    $( "#container" ).dialog({
+        autoOpen: false,
+        width:900,
+        height:800,
+        resizeable:false,
+        position: { my: "right bottom", at: "left+400px top+500px", of: 'button' } ,
+        buttons: {
+            Cancel: function() {$( this ).dialog( "close" );}
+        }
+    });
+//绑定事件
+    $(".btn_click").each(function () {
+        $(this).click(function () {
+            console.log($(this).attr('url'));
+
+            $.get($(this).attr('url'),function (data) {
+                console.log(JSON.parse(data));
+                var d = JSON.parse(data);
+                 _range = d['date'];
+                 frequency = d['frequency'];console.log(frequency);
+                 name = d['name'];
+                 rate = d['rate'];
+                ShowChart2(_range,name,frequency);
+                ShowChart1(_range,name,rate);
+
+            }).then($( "#container" ).dialog( "open" ));
+
+
+        });
+    });
+
+});
+
+
+
+
+var ShowChart1=function (_range,name,rate) {
+        Highcharts.chart('chart1', {
+        chart: {
+            backgroundColor: '#FCFFC5',
+            type: 'line',
+            height:300,
+        },
         title: {
             text: '英雄胜率',
             x: -20 //center
         },
-        //subtitle: {
-          //  text: 'Source: WorldClimate.com',
-            //x: -20
-            //},
+
         xAxis: {
-            categories:  [ "20161126", "20161125", "20161128", "20161127", "20161117", "20161121", "20161120", "20161119", "20161129", "20161124", "20161118" ]
+            categories:_range.sort()
         },
         yAxis: {
             title: {
@@ -48,34 +97,170 @@ $(function () {
             borderWidth: 0
         },
         series: [{
-            name: '神谕者',
-            data:  [ 42.5439124376, 42.4551205122, 42.4712530082, 42.4825326973, 42.4825326973, 42.4969343309, 42.4571961582, 42.4614196891, 42.4861082417, 42.5075287781, 42.5181356231 ]
-        }]
-    });
-});
+            name: name,
+            data:rate.map(x=>parseFloat(x))
 
-$(function () {
-    $( "#container" ).dialog({
-      autoOpen: false,
-        modal: true,
-      show: {
-        effect: "blind",
-        duration: 1000
-      },
-        buttons: {
-        Cancel: function() {
-          $( this ).dialog( "close" );
-        }
+            }]
+        })
+    }
 
-    });
-//绑定事件
-    $(".btn-default").each(function (n) {
-        $(this).click(function () {
-            console.log(this.attr('url'));
-            $( "#container").dialog( "open" );
-        });
-    });
+var ShowChart2=function (_range,name,rate) {
+        Highcharts.chart('chart2', {
+        chart: {
+            backgroundColor: '#FCFFC5',
+            type: 'line',
+            height:300,
+        },
+        title: {
+            text: '出场次数',
+            x: -20 //center
+        },
 
-});
-    </script>
+        xAxis: {
+            categories:_range.sort()
+        },
+        yAxis: {
+            title: {
+                text: '出场次数'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: name,
+            data:rate.map(x=>parseFloat(x))
+
+            }]
+        })
+    }
+
+{#var InitCharts=function () {#}
+{#        $('#container').bind('mousemove touchmove touchstart', function (e) {#}
+{#        var chart,#}
+{#            point,#}
+{#            i,#}
+{#            event;#}
+{##}
+{#        for (i = 0; i < Highcharts.charts.length; i = i + 1) {#}
+{#            chart = Highcharts.charts[i];#}
+{#            event = chart.pointer.normalize(e.originalEvent); // Find coordinates within the chart#}
+{#            point = chart.series[0].searchPoint(event, true); // Get the hovered point#}
+{##}
+{#            if (point) {#}
+{#                point.highlight(e);#}
+{#            }#}
+{#        }#}
+{#    });#}
+{##}
+{#    Highcharts.Pointer.prototype.reset = function () {#}
+{#        return undefined;#}
+{#    };#}
+{##}
+{##}
+{#    Highcharts.Point.prototype.highlight = function (event) {#}
+{#        this.onMouseOver(); // Show the hover marker#}
+{#        this.series.chart.tooltip.refresh(this); // Show the tooltip#}
+{#        this.series.chart.xAxis[0].drawCrosshair(event, this); // Show the crosshair#}
+{#    };#}
+{##}
+{##}
+{#    function syncExtremes(e) {#}
+{#        var thisChart = this.chart;#}
+{##}
+{#        if (e.trigger !== 'syncExtremes') { // Prevent feedback loop#}
+{#            Highcharts.each(Highcharts.charts, function (chart) {#}
+{#                if (chart !== thisChart) {#}
+{#                    if (chart.xAxis[0].setExtremes) { // It is null while updating#}
+{#                        chart.xAxis[0].setExtremes(e.min, e.max, undefined, false, { trigger: 'syncExtremes' });#}
+{#                    }#}
+{#                }#}
+{#            });#}
+{#        }#}
+{#    }#}
+{#    }#}
+
+{#var ShowChart2=function (dataset) {#}
+{#    $.each(dataset, function (i, dataset) {#}
+{#        console.log(i, dataset);#}
+{#        console.log(typeof (dataset));#}
+{#        // Add X values#}
+{#        dataset.data = Highcharts.map(dataset.data, function (val, j) {#}
+{#            return [activity.xData[j], val];#}
+{#        });#}
+{#        $('<div class="chart">')#}
+{#                .appendTo('#container')#}
+{#                .highcharts({#}
+{#                    chart: {#}
+{#                        marginLeft: 40, // Keep all charts left aligned#}
+{#                        spacingTop: 20,#}
+{#                        spacingBottom: 20#}
+{#                    },#}
+{#                    title: {#}
+{#                        text: dataset.name,#}
+{#                        align: 'left',#}
+{#                        margin: 0,#}
+{#                        x: 30#}
+{#                    },#}
+{#                    credits: {#}
+{#                        enabled: false#}
+{#                    },#}
+{#                    legend: {#}
+{#                        enabled: false#}
+{#                    },#}
+{#                    xAxis: {#}
+{#                        crosshair: true,#}
+{#                        events: {#}
+{#                            setExtremes: syncExtremes#}
+{#                        },#}
+{##}
+{#                    },#}
+{#                    yAxis: {#}
+{#                        title: {#}
+{#                            text: null#}
+{#                        }#}
+{#                    },#}
+{#                    tooltip: {#}
+{#                        positioner: function () {#}
+{#                            return {#}
+{#                                x: this.chart.chartWidth - this.label.width, // right aligned#}
+{#                                y: -1 // align to title#}
+{#                            };#}
+{#                        },#}
+{#                        borderWidth: 0,#}
+{#                        backgroundColor: 'none',#}
+{#                        pointFormat: '{point.y}',#}
+{#                        headerFormat: '',#}
+{#                        shadow: false,#}
+{#                        style: {#}
+{#                            fontSize: '18px'#}
+{#                        },#}
+{#                        //valueDecimals: dataset.valueDecimals#}
+{#                    },#}
+{#                    series: [{#}
+{#                        data: dataset.date,#}
+{#                        name: dataset.name,#}
+{##}
+{#                        color: Highcharts.getOptions().colors[i],#}
+{#                        fillOpacity: 0.3,#}
+{#                        tooltip: {#}
+{#                            valueSuffix: ' ' + dataset.unit#}
+{#                        }#}
+{#                    }]#}
+{#                });#}
+{#    })#}
+
+</script>
 {% endblock %}
+

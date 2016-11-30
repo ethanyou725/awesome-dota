@@ -5,25 +5,37 @@
 {{super()}}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style media="screen">
-    body{
-    float: none;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    body {
+        float: none;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+    li,a{
+        font-size: larger;
+        font-weight: bold;
+        color: #1a00ba;
     }
 </style>
-    {% block scripts %}
+{#<link rel="stylesheet" href="http://jqueryui.com/resources/demos/style.css">#}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+{% endblock %}
+
+
+{% block scripts %}
     {{ super() }}
         <script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
         <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
         <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/modules/data.js"></script>
         <script type="text/javascript" src="http://cdn.bootcss.com/jquery-ui-bootstrap/0.5pre/assets/js/bootstrap.min.js"></script>
-    {% endblock scripts %}
+        <script type="text/javascript" src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 {% endblock %}
 
+
 {% block content %}
-<div class="row">
+<div class="row" style="background-image: url('http://oe2dv0y8i.bkt.clouddn.com/7bf8a1389b504fc2b4863356e6dde71192ef6dda.jpg')">
 
 <div class="text-center">
     <div class="warpper">
@@ -31,7 +43,9 @@
             <h1></h1>
         </div>
         <br><br>
+
             {% block page_content %}{% endblock %}
+
         <div>
             <br><br>
         </div>

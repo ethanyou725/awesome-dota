@@ -36,7 +36,7 @@ def detail(index):
     result2=[]
     for i in range(DataFileList.__len__()):
         result1.append(RESULT[i]['rate'][num])
-        result2.append(RESULT[i]['frequency'][0])
+        result2.append(RESULT[i]['frequency'][num])
 
     print(HeroList.Names[num])
     data={

@@ -8,7 +8,7 @@ import json
 # import scripts.HeroList
 from scripts.DataHandler import RESULT,DATE_RANGE,DataFileList
 from scripts import HeroList
-from scripts.DownloadImages import EName,url_list
+from scripts.DownloadImages import url_list
 
 
 app = Flask(__name__)

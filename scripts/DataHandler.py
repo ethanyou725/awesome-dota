@@ -7,7 +7,7 @@ from scripts import HeroList
 
 Basedir = os.path.dirname(os.getcwd())
 DataDir = Basedir +"/data/"
-ImageDir= Basedir + "/images"
+ImageDir= Basedir + "/images/"
 DataFileList = os.listdir(DataDir)
 
 # defs

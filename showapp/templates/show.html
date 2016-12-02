@@ -68,6 +68,10 @@ var ShowChart1=function (_range,name,rate) {
             backgroundColor: '#FCFFC5',
             type: 'line',
             height:300,
+            plotShadow: true,
+            panning: true,
+            panKey: 'shift',
+            zoomType: 'x',
         },
         title: {
             text: '英雄胜率',
@@ -110,6 +114,12 @@ var ShowChart2=function (_range,name,rate) {
             backgroundColor: '#FCFFC5',
             type: 'line',
             height:300,
+            //plotBorderColor: '#346691',
+            //plotBorderWidth: 2,
+            plotShadow: true,
+            zoomType: 'x',
+             panning: true,
+            panKey: 'shift',
         },
         title: {
             text: '出场次数',

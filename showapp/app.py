@@ -3,7 +3,7 @@ import sys
 from flask import Flask, render_template, flash, redirect, url_for, jsonify,request
 import os
 import json
-# sys.path.append("..")
+sys.path.append("..")
 # import scripts.DataHandler
 # import scripts.HeroList
 from scripts.DataHandler import RESULT,DATE_RANGE,DataFileList

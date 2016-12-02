@@ -3,15 +3,21 @@ import pymongo
 import requests
 import os
 
-
-client = pymongo.MongoClient(host="127.0.0.1", port=27017)
-db = client['test_cw']
-result=db['dota_hero'].find({},{'url':1,"_id":0})
-url_list = [b['url'] for b in list(result)]
+url_list =[]
+url_file = os.path.dirname(os.getcwd())+"/static/url.txt"
+if os.path.exists(url_file):
+    with open(url_file,'r') as f:
+        for line in f:
+            url_list.append(line.strip())
+else:
+    client = pymongo.MongoClient(host="127.0.0.1", port=27017)
+    db = client['test_cw']
+    result=db['dota_hero'].find({},{'url':1,"_id":0})
+    url_list = [b['url'] for b in list(result)]
 
 
 # print(url_list.__len__())
-url_file = os.path.dirname(os.getcwd())+"/static/url.txt"
+
 
 
 def Downloader():
@@ -31,7 +37,8 @@ def Downloader():
             with open(download_file,'wb') as f:
                 f.write(r.content)
             print("%s download OK!"%name)
-
+        else:
+            print("%s exist"%name)
 
 
 if __name__ == "__main__":

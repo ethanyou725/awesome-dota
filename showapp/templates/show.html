@@ -4,10 +4,10 @@
 {% block page_content %}
 <ul class="list-group ">
     {% for item in post %}
-    <li class="list-group-item col-xs-2" style="background-color: rgba(0,0,0,0)">
-        <a url="{{ url_for('detail', index=loop.index) }}"  class="btn_click" style="background-color: rgba(0,0,0,0)">{{ loop.index }}.{{item[0]}}
+    <li class="list-group-item col-xs-2" >
+        <a url="{{ url_for('detail', index=loop.index) }}"  class="btn_click" style="background-color: rgba(0,0,0,0)" >{{ loop.index }}.{{item[0]}}
         <br>
-        <img src="{{ item[1] }}"/></a>
+        <img src="{{ item[1] }}"  title="{{item[0]}}" class="pre_img"/></a>
     </li>
     {% endfor %}
 </ul>
@@ -36,6 +36,15 @@ $(function () {
             Cancel: function() {$( this ).dialog( "close" );}
         }
     });
+
+    function getDate(url) {
+        $.get(url,function (data) {
+            console.log(JSON.parse(data));
+            return JSON.parse(data)
+        })
+    }
+
+
 //绑定事件
     $(".btn_click").each(function () {
         $(this).click(function () {
@@ -50,12 +59,15 @@ $(function () {
                  rate = d['rate'];
                 ShowChart2(_range,name,frequency);
                 ShowChart1(_range,name,rate);
-
             }).then($( "#container" ).dialog( "open" ));
-
-
         });
     });
+
+    $(".pre_img").each(function () {
+        $(this).one("mouseover",(function () {
+            console.log($(this).previousSibling)
+        }))
+    })
 
 });
 
@@ -273,4 +285,3 @@ var ShowChart2=function (_range,name,rate) {
 
 </script>
 {% endblock %}
-

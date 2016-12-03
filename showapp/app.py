@@ -38,7 +38,7 @@ def detail(index):
         result1.append(RESULT[i]['rate'][num])
         result2.append(RESULT[i]['frequency'][num])
 
-    print(HeroList.Names[num])
+    # print(HeroList.Names[num])
     data={
         'name':HeroList.Names[num],
         'rate':result1,

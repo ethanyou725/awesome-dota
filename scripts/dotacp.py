@@ -50,7 +50,7 @@ if __name__=="__main__":
     for index in range(AMOUNT):
         writer.writerow([next(hero_list),next(hero_rate),next(freq)])
 
-
+        
     # post = {"author": "yzg",
     #     "dota2": "from dotamax",
     #     "tags": ["mongodb", "python", "pymongo"],

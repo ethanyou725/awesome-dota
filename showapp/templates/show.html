@@ -4,7 +4,7 @@
 {% block page_content %}
 <ul class="list-group ">
     {% for item in post %}
-    <li class="list-group-item col-xs-2" >
+    <li class="list-group-item col-md-2 clearfix" >
         <a url="{{ url_for('detail', index=loop.index) }}"  class="btn_click" style="background-color: rgba(0,0,0,0)" >{{ loop.index }}.{{item[0]}}
         <br>
         <img src="{{ item[1] }}"  title="{{item[0]}}" class="pre_img"/></a>
@@ -31,7 +31,7 @@ $(function () {
         width:900,
         height:800,
         resizeable:false,
-        position: { my: "right bottom", at: "left+400px top+500px", of: 'button' } ,
+        position: { my: "right bottom", at: "left+200px top+800px", of: 'button' } ,
         buttons: {
             Cancel: function() {$( this ).dialog( "close" );}
         }
@@ -167,6 +167,15 @@ var ShowChart2=function (_range,name,rate) {
             }]
         })
     }
+
+    $(document.onkeydown=function(e){
+      var e = event || window.event || arguments.callee.caller.arguments[0];
+      if(e&&e.keycode==13){
+          $( "#container" ).dialog( "close" );
+      }else if (e&&e.keycode==27) {
+        $( "#container" ).dialog( "close" );
+      }
+    })
 
 {#var InitCharts=function () {#}
 {#        $('#container').bind('mousemove touchmove touchstart', function (e) {#}

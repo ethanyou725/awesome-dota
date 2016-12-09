@@ -2,7 +2,10 @@
 
 
 {% block page_content %}
-<ul class="list-group ">
+    <div class="cintainer-fluid">
+
+
+    <ul class="list-group ">
     {% for item in post %}
     <li class="list-group-item col-md-2 clearfix" >
         <a url="{{ url_for('detail', index=loop.index) }}"  class="btn_click" style="background-color: rgba(0,0,0,0)" >{{ loop.index }}.{{item[0]}}
@@ -10,7 +13,8 @@
         <img src="{{ item[1] }}"  title="{{item[0]}}" class="pre_img"/></a>
     </li>
     {% endfor %}
-</ul>
+    </ul>
+    </div>
     <div id="container" style="min-width: 800px; background-color: #FCFFC5;margin: 0 auto;display: none">
         <div id="chart1"></div>
         <p><br><hr>
@@ -27,22 +31,25 @@ var _range,frequency,name,rate;
 
 $(function () {
     $( "#container" ).dialog({
+         classes: {
+            "ui-dialog": "highlight"
+            },
         autoOpen: false,
-        width:900,
-        height:800,
+        width:800,
+        height:700,
         resizeable:false,
-        position: { my: "right bottom", at: "left+200px top+800px", of: 'button' } ,
+        position: { my: "right bottom", at: "left+200px top+800px", of: window,collision:"fit flip" } ,
         buttons: {
             Cancel: function() {$( this ).dialog( "close" );}
         }
     });
 
-    function getDate(url) {
-        $.get(url,function (data) {
-            console.log(JSON.parse(data));
-            return JSON.parse(data)
-        })
-    }
+{#    function getDate(url) {#}
+{#        $.get(url,function (data) {#}
+{#            console.log(JSON.parse(data));#}
+{#            return JSON.parse(data)#}
+{#        })#}
+{#    }#}
 
 
 //绑定事件
@@ -63,11 +70,11 @@ $(function () {
         });
     });
 
-    $(".pre_img").each(function () {
-        $(this).one("mouseover",(function () {
-            console.log($(this).previousSibling)
-        }))
-    })
+{#    $(".pre_img").each(function () {#}
+{#        $(this).one("mouseover",(function () {#}
+{#            console.log($(this).previousSibling)#}
+{#        }))#}
+{#    })#}
 
 });
 
@@ -79,7 +86,8 @@ var ShowChart1=function (_range,name,rate) {
         chart: {
             backgroundColor: '#FCFFC5',
             type: 'line',
-            height:300,
+            height:260,
+
             plotShadow: true,
             panning: true,
             panKey: 'shift',
@@ -125,7 +133,7 @@ var ShowChart2=function (_range,name,rate) {
         chart: {
             backgroundColor: '#FCFFC5',
             type: 'line',
-            height:300,
+            height:260,
             //plotBorderColor: '#346691',
             //plotBorderWidth: 2,
             plotShadow: true,

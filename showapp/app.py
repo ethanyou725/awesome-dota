@@ -3,6 +3,9 @@ import sys
 from flask import Flask, render_template, flash, redirect, url_for, jsonify,request
 import os
 import json
+from flask.ext.cache import Cache
+from flask_debugtoolbar import DebugToolbarExtension
+
 sys.path.append("..")
 # import scripts.DataHandler
 # import scripts.HeroList
@@ -13,14 +16,18 @@ from scripts.DownloadImages import url_list
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'today is 20161126'
+
 # testapp.config?????
 bootstrap = Bootstrap(app)
+toolbar = DebugToolbarExtension(app)
+cache = Cache(app,config={'CACHE_TYPE': 'simple'})
 
 @app.route('/error')
 def index():
     return '<h1>404 Not Found</h1>'
 
 @app.route('/')
+@cache.cached(timeout=300)
 def home():
     a = []
     for n in range(112):
@@ -30,6 +37,7 @@ def home():
 
 
 @app.route('/hero/<index>')
+@cache.cached(timeout=300)
 def detail(index):
     num=int(index)-1
     result1=[]

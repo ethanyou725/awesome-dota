@@ -16,10 +16,10 @@ from scripts.DownloadImages import url_list
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'today is 20161126'
+# app.debug=True
 
 # testapp.config?????
 bootstrap = Bootstrap(app)
-toolbar = DebugToolbarExtension(app)
 cache = Cache(app,config={'CACHE_TYPE': 'simple'})
 
 @app.route('/error')
@@ -62,9 +62,12 @@ def detail(index):
 
 if __name__ =="__main__":
     app.config.update(
-        DEBUG=True,
         TEMPLATES_AUTO_RELOAD=True,
+        DEBUG=True,
+        DEBUG_TB_PROFILER_ENABLED=True,
+        DEBUG_TB_TEMPLATE_EDITOR_ENABLED=True
     )
+
     extra_dir = os.path.dirname(os.path.abspath("."))
     extra_files=[]
 
@@ -74,5 +77,8 @@ if __name__ =="__main__":
             filename = os.path.join(dirname, filename)
             if os.path.isfile(filename):
                 extra_files.append(filename)
+
+    toolbar = DebugToolbarExtension(app)
+
     app.run(extra_files=extra_files)
 
